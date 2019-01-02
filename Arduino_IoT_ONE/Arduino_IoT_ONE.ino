@@ -105,7 +105,7 @@ void loop() {
       if(door.get_is_closed()){
         door.unlock_door();
       }
-      delay(50);
+      delay(100);
     }
   if(!door.get_is_locked()){
     door.polling_for_close_check();

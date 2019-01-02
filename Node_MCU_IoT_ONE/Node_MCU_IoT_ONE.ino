@@ -17,7 +17,7 @@ char pass[] = "MFLOPS45";
 void UNLOCK(){
   digitalWrite(lock,LOW);
   digitalWrite(unlock, HIGH);
-  delay(50);
+  delay(100);
   digitalWrite(unlock,LOW);
   digitalWrite(lock,LOW);
 }
@@ -25,7 +25,7 @@ void UNLOCK(){
 void LOCK(){
   digitalWrite(lock,HIGH);
   digitalWrite(unlock,LOW);
-  delay(50);
+  delay(100);
   digitalWrite(unlock,LOW);
   digitalWrite(lock,LOW);
 }

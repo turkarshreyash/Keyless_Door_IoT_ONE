@@ -98,7 +98,7 @@ void loop() {
     {
       door.lock_door();
     }
-    delay(50);
+    delay(100);
     }
     if(digitalRead(node_mcu_open)){
       //Serial.println("OPEN REQUEST RECEIVED ");
@@ -115,5 +115,4 @@ void loop() {
   }
 
   battery.charge_check();
-  Serial.print("[2J");
 }

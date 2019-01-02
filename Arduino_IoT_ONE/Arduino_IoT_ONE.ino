@@ -98,14 +98,14 @@ void loop() {
     {
       door.lock_door();
     }
-    delay(100);
+    delay(500);
     }
     if(digitalRead(node_mcu_open)){
       //Serial.println("OPEN REQUEST RECEIVED ");
       if(door.get_is_closed()){
         door.unlock_door();
       }
-      delay(100);
+      delay(500);
     }
   if(!door.get_is_locked()){
     door.polling_for_close_check();

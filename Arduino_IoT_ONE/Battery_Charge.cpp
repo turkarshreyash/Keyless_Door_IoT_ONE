@@ -10,7 +10,7 @@ float Battery::check_voltage(){
     return ((value * 4.9) / 1024.0) / (R2 / (R1 + R2));
 }
 bool Battery::power_supply(){
-    if(analogRead(power_supply_check_pin)>=700){
+    if(digitalRead(power_supply_check_pin)){
         return true;
     }
     return false;
@@ -28,7 +28,6 @@ bool Battery::battery_discharged()
     if (check_voltage() < threshold)
     {
         return true;
-        ;
     }
     return false;
 }
@@ -44,35 +43,8 @@ void Battery::stop_charging()
     start_charge_time = 0;
     is_charging = false;
 }
-void Battery::pause_charging()
-{
-    digitalWrite(charge_enable_pin, LOW);
-    paused_since = millis();
-    charging_is_paused = true;
-    is_charging = false;
-}
-void Battery::resume_charge()
-{
-    digitalWrite(charge_enable_pin, HIGH);
-    unsigned long current_time = millis();
-    Serial.println("Resumed Charging !");
-    if ((current_time - paused_since) < (paused_since - start_charge_time))
-    {
-        start_charge_time = start_charge_time + (current_time - paused_since);
-        Serial.print("Minor Fault : ");
-        Serial.print(start_charge_time);
-        
-    }
-    else
-    {
-        start_charge_time = current_time;
-        Serial.println("Major Fault : ");
-        Serial.println(start_charge_time);
-    }
-    Serial.println();
-    charging_is_paused = false;
-    is_charging = true;
-}
+
+
 Battery::Battery(int Tvoltage_check_pin, int Tcharge_enable_pin, int Tpower_supply_check_pin)
 {
     voltage_check_pin = Tvoltage_check_pin;
@@ -92,11 +64,6 @@ void Battery::charge_check()
         if (battery_present())
         {
             Serial.println("Battery is Present");
-            if (charging_is_paused)
-            {
-                Serial.println("Battery Charging is Paused");
-                resume_charge();
-            }
             if (!is_charging)
             {   
                 Serial.println("Battery is Not Charging");
@@ -128,7 +95,7 @@ void Battery::charge_check()
         if (is_charging)
         {
             Serial.println("Battery Charging Paused ");
-            pause_charging();
+            stop_charging();
         }
     }
 }

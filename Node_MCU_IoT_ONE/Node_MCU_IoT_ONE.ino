@@ -17,7 +17,7 @@ char pass[] = "MFLOPS45";
 void UNLOCK(){
   digitalWrite(lock,LOW);
   digitalWrite(unlock, HIGH);
-  delay(100);
+  delay(500);
   digitalWrite(unlock,LOW);
   digitalWrite(lock,LOW);
 }
@@ -25,7 +25,7 @@ void UNLOCK(){
 void LOCK(){
   digitalWrite(lock,HIGH);
   digitalWrite(unlock,LOW);
-  delay(100);
+  delay(500);
   digitalWrite(unlock,LOW);
   digitalWrite(lock,LOW);
 }
@@ -48,6 +48,7 @@ BLYNK_WRITE(V0)  // Button Widget in SWITCH mode
   int value = param.asInt(); // Get value as integer
   if(value){
     LOCK();
+    Blynk.virtualWrite(V0,LOW);
   }
 }
 BLYNK_WRITE(V1)  // Button Widget in SWITCH mode 
@@ -56,5 +57,6 @@ BLYNK_WRITE(V1)  // Button Widget in SWITCH mode
 
   if(value){
     UNLOCK();
+    Blynk.virtualWrite(V1, LOW);
   }
-}
+  }

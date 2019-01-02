@@ -1,13 +1,13 @@
 #include "Arduino.h"
 #include "Battery_Charge.h"
-const int  Battery::min_battery_vol = 3;                
-const int Battery::threshold = 10;                      
+const int  Battery::min_battery_vol = 5;                
+const int Battery::threshold = 9;                      
 const unsigned long Battery::charge_time = (5) * (3.6e6);
-const float Battery::R1 = 1000000;                      
-const float Battery::R2 = 46000;                        
+const float Battery::R1 = 1000000;
+const float Battery::R2 = 47000;                        
 float Battery::check_voltage(){
     float value = analogRead(voltage_check_pin);
-    return ((value * 5.0) / 1024.0) / (R2 / (R1 + R2));
+    return ((value * 4.9) / 1024.0) / (R2 / (R1 + R2));
 }
 bool Battery::power_supply(){
     if(analogRead(power_supply_check_pin)>=700){
@@ -55,19 +55,19 @@ void Battery::resume_charge()
 {
     digitalWrite(charge_enable_pin, HIGH);
     unsigned long current_time = millis();
-  //  Serial.println("Resumed Charging !");
+    Serial.println("Resumed Charging !");
     if ((current_time - paused_since) < (paused_since - start_charge_time))
     {
         start_charge_time = start_charge_time + (current_time - paused_since);
-    //    Serial.print("Minor Fault : ");
-      //  Serial.print(start_charge_time);
+        Serial.print("Minor Fault : ");
+        Serial.print(start_charge_time);
         
     }
     else
     {
         start_charge_time = current_time;
-       // Serial.println("Major Fault : ");
-        //Serial.println(start_charge_time);
+        Serial.println("Major Fault : ");
+        Serial.println(start_charge_time);
     }
     Serial.println();
     charging_is_paused = false;
@@ -83,35 +83,37 @@ Battery::Battery(int Tvoltage_check_pin, int Tcharge_enable_pin, int Tpower_supp
 }
 void Battery::charge_check()
 {   
-    //Serial.println("Inside Function charge_check");
+    Serial.println("Inside Function charge_check");
+    Serial.print("Voltage : ");
+    Serial.print(check_voltage());
     if (power_supply())
     {
-      //  Serial.println("Getting Power Supply");
+        Serial.println("Getting Power Supply");
         if (battery_present())
         {
-        //    Serial.println("Battery is Present");
+            Serial.println("Battery is Present");
             if (charging_is_paused)
             {
-          //      Serial.println("Battery Charging is Paused");
+                Serial.println("Battery Charging is Paused");
                 resume_charge();
             }
             if (!is_charging)
             {   
-            //    Serial.println("Battery is Not Charging");
+                Serial.println("Battery is Not Charging");
                 if (battery_discharged())
                 {
-              //      Serial.println("Battery is discharged");
+                    Serial.println("Battery is discharged");
                     start_charging();
                 }
             }
             else
             {   
-                //Serial.println("BAttery is charging");
-                //Serial.println("Time Elapsed : ");
+                Serial.println("BAttery is charging");
+                Serial.println("Time Elapsed : ");
                 Serial.println((millis() - start_charge_time));
                 if (charge_time <= (millis()-start_charge_time))
                 { 
-                 //   Serial.println("Battery charge time is over Now Stopping Charging");
+                    Serial.println("Battery charge time is over Now Stopping Charging");
                     stop_charging();
                 }
                 
@@ -122,10 +124,10 @@ void Battery::charge_check()
     }
     else
     {
-        //Serial.println("No main Power");
+        Serial.println("No main Power");
         if (is_charging)
         {
-          //  Serial.println("Battery Charging Paused ");
+            Serial.println("Battery Charging Paused ");
             pause_charging();
         }
     }

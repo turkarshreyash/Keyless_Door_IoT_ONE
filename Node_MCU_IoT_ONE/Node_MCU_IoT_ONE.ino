@@ -32,17 +32,17 @@ void LOCK(){
 
 void setup()
 {
-  
   Blynk.begin(auth, ssid, pass);
   pinMode(lock,OUTPUT);
   pinMode(unlock,OUTPUT);
-  UNLOCK();
 }
 void loop()
 { 
 
   Blynk.run(); 
 }
+
+
 BLYNK_WRITE(V0)  // Button Widget in SWITCH mode 
 {   
   int value = param.asInt(); // Get value as integer

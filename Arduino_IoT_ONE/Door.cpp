@@ -18,6 +18,12 @@ void Door::turn_green_light_off(){
     digitalWrite(green_light_pin, LOW);
 }
 
+void Door::blink_red_light(){
+    digitalWrite(red_light_pin, LOW);
+    delay(250);
+    digitalWrite(red_light_pin, HIGH);
+}
+
 bool Door::get_is_closed(){
     return is_closed;
 }

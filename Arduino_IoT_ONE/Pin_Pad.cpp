@@ -6,8 +6,9 @@ Pin_Pad::Pin_Pad(String Tpin)
     pin = Tpin;
 }
 
-bool Pin_Pad::pin_checked(Keypad &myKeypad)
+bool Pin_Pad::pin_checked(Keypad &myKeypad, Door &door)
 {
+    door.blink_red_light();
     String entered_pin = "";
     int len = pin.length();
     Serial.print("Lenght of pin : ");
@@ -52,7 +53,7 @@ void Pin_Pad::check_action(Door &door, Keypad &myKeypad)
             if (door.get_is_locked())
             {
                 Serial.println("Door is locked Enter pin: ");
-                if (pin_checked(myKeypad))
+                if (pin_checked(myKeypad,door))
                 {
                     door.unlock_door();
                 }

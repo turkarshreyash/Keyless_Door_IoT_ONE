@@ -8,7 +8,7 @@
 class Pin_Pad
 {
     String pin;
-    bool pin_checked(Keypad &myKeypad);
+    bool pin_checked(Keypad &myKeypad, Door &door);
 
   public:
     Pin_Pad(String Tpin);

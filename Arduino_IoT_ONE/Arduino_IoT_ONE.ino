@@ -1,6 +1,5 @@
 #include"Door.h"
 #include"Pin_Pad.h"
-#include "Battery_Charge.h"
 #include<Keypad.h>
 #define door_unlock_pin A4
 #define door_close_sensor_pin A3
@@ -9,9 +8,7 @@
 #define button_pin 2
 #define node_mcu_lock 12
 #define node_mcu_open 3
-#define battery_vol_ch A5
-#define battery_charge_en 13
-#define power_supply_ch A2
+#define indi_light A2
 
 
 int buttonState;           // the current reading from the input pin
@@ -39,11 +36,10 @@ Keypad mykeypad = Keypad(makeKeymap(keys), rowPins, colPins, n_rows, n_cols);
 
 Door door(door_unlock_pin,door_close_sensor_pin,red_light_pin,green_light_pin);
 Pin_Pad pin_pad(pin);
-Battery battery(battery_vol_ch, battery_charge_en, power_supply_ch);
+
 
 void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
+
   pinMode(door_unlock_pin,OUTPUT);
   pinMode(door_close_sensor_pin,INPUT);
   pinMode(red_light_pin,OUTPUT);
@@ -51,12 +47,13 @@ void setup() {
   pinMode(button_pin, INPUT); //switch
   pinMode(node_mcu_lock,INPUT);
   pinMode(node_mcu_open,INPUT);
+  pinMode(indi_light,OUTPUT);
   door.init();
 
 }
 
 void loop() {
-
+  digitalWrite(indi_light,HIGH);
 
   reading = digitalRead(button_pin);
   if (reading != lastButtonState)
@@ -65,7 +62,6 @@ void loop() {
     // reset the debouncing timer
     lastDebounceTime = millis();
   }
-
   if ((millis() - lastDebounceTime) > debounceDelay)
   {
 
@@ -77,7 +73,7 @@ void loop() {
       // only toggle the LED if the new button state is HIGH
       if (buttonState == LOW)
       {
-        //Serial.println("Entered!");
+      
         if (door.get_is_locked())
         {
           door.unlock_door();
@@ -91,9 +87,11 @@ void loop() {
   }
   lastButtonState = reading;
 
+
+
   if (digitalRead(node_mcu_lock))
   {
-    //Serial.println("LOCK REQUEST RECEIVED");
+    
     if (door.get_is_closed() && !door.get_is_locked())
     {
       door.lock_door();
@@ -101,12 +99,16 @@ void loop() {
     delay(500);
     }
     if(digitalRead(node_mcu_open)){
-      //Serial.println("OPEN REQUEST RECEIVED ");
+      
       if(door.get_is_closed()){
         door.unlock_door();
       }
       delay(500);
     }
+
+
+
+
   if(!door.get_is_locked()){
     door.polling_for_close_check();
   }
@@ -114,5 +116,9 @@ void loop() {
     pin_pad.check_action(door, mykeypad);
   }
 
-  battery.charge_check();
+
+
+  delay(50);
+  digitalWrite(indi_light,LOW);
+  delay(50);
 }

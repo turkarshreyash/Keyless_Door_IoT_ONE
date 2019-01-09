@@ -1,19 +1,19 @@
 #include"Door.h"
 #include"Pin_Pad.h"
 #include<Keypad.h>
-#define door_unlock_pin A4
-#define door_close_sensor_pin A3
-#define red_light_pin A0
-#define green_light_pin A1
-#define button_pin 2
-#define node_mcu_lock 12
-#define node_mcu_open 3
-#define indi_light A2
 
+byte door_unlock_pin = A4;
+byte door_close_sensor_pin = A3;
+byte red_light_pin = A0;
+byte green_light_pin = A1;
+byte  button_pin = 2;
+byte node_mcu_lock = 12;
+byte node_mcu_open = 3;
+byte indi_light = A2;
+byte reading;
 
-int buttonState;           // the current reading from the input pin
-int lastButtonState = HIGH; // the previous reading from the input pin
-int reading;
+byte buttonState;           // the current reading from the input pin
+byte lastButtonState = HIGH; // the previous reading from the input pin
 
 unsigned long lastDebounceTime = 0; // the last time the output pin was toggled
 unsigned long debounceDelay = 10;   // the debounce time; 

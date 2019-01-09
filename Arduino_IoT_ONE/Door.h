@@ -3,9 +3,9 @@
 #define Door_h
 
 class Door{
-    int door_unlock_pin;
-    int door_close_sensor_pin;
-    int red_light_pin;
+    byte door_unlock_pin;
+    byte door_close_sensor_pin;
+    byte red_light_pin;
     int green_light_pin;
     bool is_locked;
     bool is_closed;
@@ -16,7 +16,7 @@ class Door{
     void send_unlock_signal();
     
     public:
-        Door(int Tdoor_unlock_pin, int Tdoor_lock_sensor_pin, int Tred_light_pin, int Tgreen_light_pin);
+        Door(byte Tdoor_unlock_pin, byte Tdoor_lock_sensor_pin, byte Tred_light_pin, byte Tgreen_light_pin);
         void init();
         void polling_for_close_check();
         void unlock_door();

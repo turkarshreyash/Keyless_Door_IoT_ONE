@@ -13,8 +13,8 @@ char ssid[] = "TESLA";
 char pass[] = "MFLOPS45";
 int battery_pin = A0;
 int power_supply = 2;
-int charge_enable = 12;
-int indi_led = 14;
+int charge_enable = 14;
+int indi_led = 12;
 
 void UNLOCK(){
   digitalWrite(lock,LOW);
@@ -33,7 +33,7 @@ void LOCK(){
 }
 
 
-Battery battery(battery_pin,charge_enable,power_supply);
+Battery battery(battery_pin,charge_enable);
 
 void setup() {
   Blynk.begin(auth, ssid, pass);
@@ -74,4 +74,10 @@ BLYNK_WRITE(V1)  // Button Widget in SWITCH mode
     UNLOCK();
     Blynk.virtualWrite(V1, LOW);
   }
-  }
+ }
+ BLYNK_READ(V2){
+  Blynk.virtualWrite(V2,battery.check_voltage());
+ 
+ }
+ 
+

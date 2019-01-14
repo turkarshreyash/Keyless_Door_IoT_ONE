@@ -18,7 +18,7 @@ byte lastButtonState = HIGH; // the previous reading from the input pin
 unsigned long lastDebounceTime = 0; // the last time the output pin was toggled
 unsigned long debounceDelay = 10;   // the debounce time; 
 
-String pin = "0000";
+String pin = "2280";
 
 const byte n_rows = 4;              //four rows
 const byte n_cols = 4;              //four columns
@@ -39,6 +39,7 @@ Pin_Pad pin_pad(pin);
 
 
 void setup() {
+  Serial.begin(9600);
 
   pinMode(door_unlock_pin,OUTPUT);
   pinMode(door_close_sensor_pin,INPUT);
@@ -52,75 +53,8 @@ void setup() {
 
 }
 
-void loop() {
-  digitalWrite(indi_light,HIGH);
-  Serial.println("LOOOP!!!!!!!!!!!!!");
-  reading = digitalRead(button_pin);
-  if (reading != lastButtonState)
-  {
-    //Serial.println("Reset Debounce time");
-    // reset the debouncing timer
-    lastDebounceTime = millis();
-  }
-  if ((millis() - lastDebounceTime) > debounceDelay)
-  {
-
-    // if the button state has changed:
-    if (reading != buttonState)
-    {
-      buttonState = reading;
-
-      // only toggle the LED if the new button state is HIGH
-      if (buttonState == LOW)
-      {
-      
-        if (door.get_is_locked())
-        {
-          door.unlock_door();
-          Serial.println("UNLOCKING DOOR");
-        }
-        else if (door.get_is_closed())
-        {
-          Serial.println("LOCKING DOOR !");
-          door.lock_door();
-        }
-      }
-    }
-  }
-  lastButtonState = reading;
-
-
-
-  if (digitalRead(node_mcu_lock))
-  {
-    
-    if (door.get_is_closed() && !door.get_is_locked())
-    {
-      door.lock_door();
-    }
-    delay(500);
-    }
-    if(digitalRead(node_mcu_open)){
-      
-      if(door.get_is_closed()){
+void loop() {\
+        door.polling_for_close_check();
         door.unlock_door();
-      }
-      delay(500);
-    }
-
-
-
-
-  if(!door.get_is_locked()){
-    door.polling_for_close_check();
-  }
-  if(door.get_is_closed()||door.get_is_locked()){
-    pin_pad.check_action(door, mykeypad);
-  }
-
-
-
-  delay(50);
-  digitalWrite(indi_light,LOW);
-  delay(50);
+        delay(500);
 }

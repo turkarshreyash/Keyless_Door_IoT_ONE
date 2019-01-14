@@ -21,12 +21,7 @@ float Battery::check_voltage(){
     return Tvoltage;
 }
 
-bool Battery::power_supply(){
-    if(digitalRead(power_supply_check_pin)){
-        return true;
-    }
-    return false;
-}
+
 
 bool Battery::battery_present()
 {
@@ -61,12 +56,12 @@ void Battery::stop_charging()
 }
 
 
-Battery::Battery(int Tvoltage_check_pin, int Tcharge_enable_pin, int Tpower_supply_check_pin)
+Battery::Battery(int Tvoltage_check_pin, int Tcharge_enable_pin)
 {
     voltage_check_pin = Tvoltage_check_pin;
     charge_enable_pin = Tcharge_enable_pin;
-    power_supply_check_pin = Tpower_supply_check_pin;
     is_charging = false;
+    
 }
 
 void Battery::charge_check()
@@ -74,9 +69,6 @@ void Battery::charge_check()
     Serial.println("Inside Function charge_check");
     Serial.print("Voltage : ");
     Serial.print(check_voltage());
-    if (power_supply())
-    {
-        Serial.println("Getting Power Supply");
         if (battery_present())
         {
             Serial.println("Battery is Present");
@@ -104,14 +96,4 @@ void Battery::charge_check()
         }else{
             stop_charging();
         }
-    }
-    else
-    {
-        Serial.println("No main Power");
-        if (is_charging)
-        {
-            Serial.println("Battery Charging Paused ");
-            stop_charging();
-        }
-    }
 }

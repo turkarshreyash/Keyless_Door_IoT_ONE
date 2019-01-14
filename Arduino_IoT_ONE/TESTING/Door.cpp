@@ -31,7 +31,7 @@ bool Door::get_is_locked(){
 void Door::send_unlock_signal(){
  
     digitalWrite(door_unlock_pin, HIGH);
-    delay(75);
+    delay(200);
     digitalWrite(door_unlock_pin, LOW);
 }
 

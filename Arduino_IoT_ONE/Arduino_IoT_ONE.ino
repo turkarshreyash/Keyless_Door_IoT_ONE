@@ -39,6 +39,7 @@ Pin_Pad pin_pad(pin);
 
 
 void setup() {
+  Serial.begin(9600);
 
   pinMode(door_unlock_pin,OUTPUT);
   pinMode(door_close_sensor_pin,INPUT);

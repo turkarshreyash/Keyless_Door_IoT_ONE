@@ -17,7 +17,7 @@ void Door::turn_green_light_off(){
 
 void Door::blink_red_light(){
     digitalWrite(red_light_pin, LOW);
-    delay(250);
+    delay(200);
     digitalWrite(red_light_pin, HIGH);
 }
 
@@ -53,7 +53,7 @@ void Door::init(){
 }
 void Door::polling_for_close_check(){
     if(digitalRead(door_close_sensor_pin)){
-        Serial.println("Closed");
+
         is_closed = true;
         return;
     }

@@ -1,4 +1,4 @@
-#include"Door.h"
+ #include"Door.h"
 #include"Pin_Pad.h"
 #include<Keypad.h>
 
@@ -39,7 +39,7 @@ Pin_Pad pin_pad(pin);
 
 
 void setup() {
-  Serial.begin(9600);
+
 
   pinMode(door_unlock_pin,OUTPUT);
   pinMode(door_close_sensor_pin,INPUT);
@@ -55,7 +55,7 @@ void setup() {
 
 void loop() {
   digitalWrite(indi_light,HIGH);
-  Serial.println("LOOOP!!!!!!!!!!!!!");
+
   reading = digitalRead(button_pin);
   if (reading != lastButtonState)
   {
@@ -78,11 +78,11 @@ void loop() {
         if (door.get_is_locked())
         {
           door.unlock_door();
-          Serial.println("UNLOCKING DOOR");
+
         }
         else if (door.get_is_closed())
         {
-          Serial.println("LOCKING DOOR !");
+
           door.lock_door();
         }
       }

@@ -8,32 +8,41 @@ Pin_Pad::Pin_Pad(String Tpin)
 
 bool Pin_Pad::pin_checked(Keypad &myKeypad, Door &door)
 {
+    long long last_active = millis();
     door.blink_red_light();
     String entered_pin = "";
     char pressed_key;
-    for (int i = 0; i < 4;)
+    for (int i = 0; i < 4 && (millis() - last_active)<10000;)
     {   
+
         pressed_key = myKeypad.getKey();
         if (pressed_key)
         {
+            
             if (pressed_key == 'B')
-            {
+            {   
+                door.blink_red_light();
+                door.blink_red_light();
                 return false;
             }
-            else if (pressed_key == 'C')
+            else if (pressed_key == 'C' || pressed_key == 'A')
             {
+                door.blink_red_light();
                 entered_pin = "";
                 i = 0;
             }
-            else if (pressed_key != 'A')
+            else
             {
                 i++;
                 entered_pin = entered_pin + pressed_key;
                 door.blink_red_light();
+   
+                
             }
+            last_active = millis();
         }
         
-    }
+        }
     return entered_pin == pin;
 }
 

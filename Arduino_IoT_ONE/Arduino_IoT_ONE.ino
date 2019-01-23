@@ -19,7 +19,7 @@ byte lastButtonState = HIGH; // the previous reading from the input pin
 unsigned long lastDebounceTime = 0; // the last time the output pin was toggled
 
 
-String pin = "7285";
+String pin = "0000";
 
 const byte n_rows = 4;              //four rows
 const byte n_cols = 4;              //four columns

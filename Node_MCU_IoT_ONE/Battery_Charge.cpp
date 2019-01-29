@@ -2,8 +2,8 @@
 #include "Battery_Charge.h"
 
 const int  Battery::min_battery_vol = 5;                
-const int Battery::threshold = 10;                      
-const unsigned long Battery::charge_time = (5) * (3.6e6);
+const int Battery::threshold = 10.4;                      
+const unsigned long Battery::charge_time = (10) * (3.6e6);
 const float Battery::RatioFactor = 3.2;
 
 float Battery::check_voltage(){
@@ -60,35 +60,30 @@ Battery::Battery(int Tvoltage_check_pin, int Tcharge_enable_pin)
 {
     voltage_check_pin = Tvoltage_check_pin;
     charge_enable_pin = Tcharge_enable_pin;
+    stop_charging();
     is_charging = false;
     
 }
-
+unsigned long Battery::charging_since()
+{
+    return millis() - start_charge_time;
+}
 void Battery::charge_check()
 {   
-    Serial.println("Inside Function charge_check");
-    Serial.print("Voltage : ");
     Serial.print(check_voltage());
         if (battery_present())
         {
-            Serial.println("Battery is Present");
             if (!is_charging)
             {   
-                Serial.println("Battery is Not Charging");
                 if (battery_discharged())
                 {
-                    Serial.println("Battery is discharged");
                     start_charging();
                 }
             }
             else
             {   
-                Serial.println("BAttery is charging");
-                Serial.println("Time Elapsed : ");
-                Serial.println((millis() - start_charge_time));
-                if (charge_time <= (millis()-start_charge_time))
+                if (charge_time <= charging_since())
                 { 
-                    Serial.println("Battery charge time is over Now Stopping Charging");
                     stop_charging();
                 }
                 
@@ -96,4 +91,7 @@ void Battery::charge_check()
         }else{
             stop_charging();
         }
+}
+bool Battery::ischarging(){
+    return is_charging;
 }

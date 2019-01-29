@@ -13,10 +13,12 @@ class Battery{
        
         bool battery_present();                     // returns if battery is presnt or not
         bool battery_discharged();                  // returns if battery is discharged or not
-        void start_charging();                      // starts charging battery and notes time
-        void stop_charging();                       // stops charging battery
     public:
         Battery(int Tvoltage_check_pin,int Tcharge_enable_pin);
         void charge_check();
         float check_voltage();                      // returns voltage of battery on pin voltage_check_pin
+        void start_charging();                      // starts charging battery and notes time
+        void stop_charging();                       // stops charging battery
+        unsigned long charging_since();
+        bool ischarging();
 };

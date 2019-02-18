@@ -53,41 +53,53 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(indi_light,HIGH);
+  digitalWrite(indi_light, HIGH);
   reading = digitalRead(button_pin);
-  if (reading != buttonState){
+  if (reading != buttonState)
+  {
     buttonState = reading;
-    if (buttonState == LOW){
-      if (door.get_is_locked()){
+    if (buttonState == LOW)
+    {
+      if (door.get_is_locked())
+      {
         door.unlock_door();
-      }else if (door.get_is_closed()){
+      }
+      else if (door.get_is_closed())
+      {
         door.lock_door();
       }
     }
   }
   lastButtonState = reading;
-  if (digitalRead(node_mcu_lock)){
-    if (door.get_is_closed() && !door.get_is_locked()){
+  if (digitalRead(node_mcu_lock))
+  {
+    if (door.get_is_closed() && !door.get_is_locked())
+    {
       door.lock_door();
     }
     delay(500);
   }
-  if(digitalRead(node_mcu_open)){
-    if(door.get_is_closed()){
+  if (digitalRead(node_mcu_open))
+  {
+    if (door.get_is_closed())
+    {
       door.unlock_door();
     }
     delay(500);
   }
-  if(door.get_is_closed() && !door.get_is_locked()){
+  if (door.get_is_closed() && !door.get_is_locked())
+  {
     door.pir_polling();
   }
-  if(!door.get_is_locked()){
+  if (!door.get_is_locked())
+  {
     door.polling_for_close_check();
   }
-  if(door.get_is_closed()||door.get_is_locked()){
+  if (door.get_is_closed() || door.get_is_locked())
+  {
     pin_pad.check_action(door, mykeypad);
   }
   delay(50);
-  digitalWrite(indi_light,LOW);
+  digitalWrite(indi_light, LOW);
   delay(50);
 }

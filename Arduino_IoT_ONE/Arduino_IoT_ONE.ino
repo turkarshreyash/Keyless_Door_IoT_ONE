@@ -40,8 +40,6 @@ Pin_Pad pin_pad(pin);
 
 
 void setup() {
-
-
   pinMode(door_unlock_pin,OUTPUT);
   pinMode(door_close_sensor_pin,INPUT);
   pinMode(red_light_pin,OUTPUT);
@@ -52,7 +50,6 @@ void setup() {
   pinMode(indi_light,OUTPUT);
   pinMode(pir,INPUT);
   door.init();
-
 }
 
 void loop() {

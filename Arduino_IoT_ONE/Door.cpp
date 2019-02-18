@@ -73,8 +73,8 @@ void Door::pir_polling(){
         }
         return;
     }
-    bool pir_current_state = digitalRead(pir_pin);
-    if(pir_current_state){
+    bool pir_current_state = analogRead(pir_pin);;
+    if(pir_current_state > 553){
         if(pir_last_state != pir_current_state){
             if(millis() - time_elapsed_since_closed > 15000){
                 unlock_door();

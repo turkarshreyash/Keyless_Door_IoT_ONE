@@ -1,5 +1,3 @@
-
- 
 #include"Battery_Charge.h"
 
 #include <BlynkSimpleEsp8266.h>

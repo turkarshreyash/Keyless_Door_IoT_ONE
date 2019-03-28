@@ -8,11 +8,13 @@
 class Pin_Pad
 {
     String pin;
-    bool pin_checked(Keypad &myKeypad, Door &door);
+    Door *door;
+    Keypad *myKeypad;
+    bool pin_checked();
 
   public:
-    Pin_Pad(String Tpin);
-    void check_action(Door &door, Keypad &myKeypad);
+    Pin_Pad(String,Keypad*,Door*);
+    void check_action();
 };
 
 #endif

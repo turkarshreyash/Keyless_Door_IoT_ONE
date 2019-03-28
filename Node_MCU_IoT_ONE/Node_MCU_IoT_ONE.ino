@@ -31,7 +31,6 @@ void LOCK(){
   digitalWrite(lock,LOW);
 }
 
-
 Battery battery(battery_pin,charge_enable);
 
 void setup() {
@@ -41,7 +40,6 @@ void setup() {
   pinMode(charge_enable,OUTPUT);
   pinMode(indi_led,OUTPUT);
   delay(10);
-  
 }
  
 void loop() {
@@ -51,10 +49,7 @@ void loop() {
   Blynk.run();
   delay(50);   
   digitalWrite(indi_led,LOW);
- 
 }
-
-
 
 BLYNK_WRITE(V0)  // Button Widget in SWITCH mode 
 {   
@@ -64,6 +59,7 @@ BLYNK_WRITE(V0)  // Button Widget in SWITCH mode
     Blynk.virtualWrite(V0,LOW);
   }
 }
+
 BLYNK_WRITE(V1)  // Button Widget in SWITCH mode 
 {   
   int value = param.asInt(); // Get value as integer
@@ -76,7 +72,7 @@ BLYNK_WRITE(V1)  // Button Widget in SWITCH mode
  BLYNK_READ(V2){
   Blynk.virtualWrite(V2,battery.check_voltage());
  
- }
+}
 
  BLYNK_WRITE(V3) // Button Widget in SWITCH mode
  {

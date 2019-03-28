@@ -1,11 +1,6 @@
 #include "Arduino.h"
 #include "Battery_Charge.h"
-
-const int  Battery::min_battery_vol = 5;                
-const int Battery::threshold = 10.4;                      
-const unsigned long Battery::charge_time = (10) * (3.6e6);
-const float Battery::RatioFactor = 3.2;
-
+                            
 float Battery::check_voltage(){
     float Tvoltage = 0.0;
     float Vvalue = 0.0, Rvalue = 0.0;
@@ -16,29 +11,9 @@ float Battery::check_voltage(){
     }
     Vvalue = (float)Vvalue / 10.0;           //Find average of 10 values
     Rvalue = (float)(Vvalue / 1024.0) * 3.3; //Convert Voltage in 5v factor
-    Tvoltage = Rvalue * RatioFactor;         //Find original voltage by multiplying with factor
+    Tvoltage = Rvalue * FACTOR;         //Find original voltage by multiplying with factor
     /////////////////////////////////////Battery Voltage//////////////////////////////////
     return Tvoltage;
-}
-
-
-
-bool Battery::battery_present()
-{
-    if (check_voltage() > min_battery_vol)
-    {
-        return true;
-    }
-    return false;
-}
-
-bool Battery::battery_discharged()
-{
-    if (check_voltage() < threshold)
-    {
-        return true;
-    }
-    return false;
 }
 
 void Battery::start_charging()
@@ -55,7 +30,6 @@ void Battery::stop_charging()
     is_charging = false;
 }
 
-
 Battery::Battery(int Tvoltage_check_pin, int Tcharge_enable_pin)
 {
     voltage_check_pin = Tvoltage_check_pin;
@@ -64,25 +38,22 @@ Battery::Battery(int Tvoltage_check_pin, int Tcharge_enable_pin)
     is_charging = false;
     
 }
-unsigned long Battery::charging_since()
-{
-    return millis() - start_charge_time;
-}
+
 void Battery::charge_check()
 {   
     Serial.print(check_voltage());
-        if (battery_present())
+        if (BATTERY_PRESENT)
         {
             if (!is_charging)
             {   
-                if (battery_discharged())
+                if (BATTERY_DISCHARGED)
                 {
                     start_charging();
                 }
             }
             else
             {   
-                if (charge_time <= charging_since())
+                if (CHARGE_TIME <= CHARGING_SINCE)
                 { 
                     stop_charging();
                 }
@@ -92,6 +63,11 @@ void Battery::charge_check()
             stop_charging();
         }
 }
+
 bool Battery::ischarging(){
     return is_charging;
+}
+
+float Battery::charging_since(){
+    return CHARGING_SINCE;
 }

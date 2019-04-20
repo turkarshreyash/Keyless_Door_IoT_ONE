@@ -38,14 +38,10 @@ bool Pin_Pad::pin_checked()
                 i++;
                 entered_pin = entered_pin + pressed_key;
                 door->blink_red_light();
-   
-                
             }
             last_active = millis();
         }
-        
     }
-    Serial.println(entered_pin == pin);
     return entered_pin == pin;
 }
 
@@ -53,28 +49,22 @@ void Pin_Pad::check_action()
 {
     char pressed_key = myKeypad->getKey();
     if(pressed_key){
-     
         if (pressed_key == 'A')
         {
-        
             if (door->get_is_locked())
             {
-                Serial.println("Locked");
                 if (pin_checked())
                 {
-                    Serial.println("Pin Check Successful");
                     door->unlock_door();
                 }
             }
             else if (!door->get_is_locked() && door->get_is_closed())
             {
-               
                 door->unlock_door();
             }
         }
         else if (pressed_key == 'D')
         {
-
             door->lock_door();
         }
     }

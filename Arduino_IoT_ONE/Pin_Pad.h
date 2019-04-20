@@ -1,3 +1,7 @@
+/*
+Innovation Eternity
+*/
+
 #include"Arduino.h"
 #include"Door.h"
 #include <Keypad.h>
@@ -18,3 +22,8 @@ class Pin_Pad
 };
 
 #endif
+
+/*
+Design by Innovation Eternity
+Implementation by S Inc. (C) 2019
+*/

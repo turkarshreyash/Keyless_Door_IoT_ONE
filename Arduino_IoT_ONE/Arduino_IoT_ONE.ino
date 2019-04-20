@@ -36,7 +36,7 @@ Keypad mykeypad = Keypad(makeKeymap(keys), rowPins, colPins, n_rows, n_cols);
 
 
 Door door(door_unlock_pin,door_close_sensor_pin,red_light_pin,green_light_pin,pir);
-Pin_Pad pin_pad(pin);
+Pin_Pad pin_pad(pin,&mykeypad,&door);
 
 
 void setup() {
@@ -97,7 +97,7 @@ void loop() {
   }
   if (door.get_is_closed() || door.get_is_locked())
   {
-    pin_pad.check_action(door, mykeypad);
+    pin_pad.check_action();
   }
   delay(50);
   digitalWrite(indi_light, LOW);

@@ -1,3 +1,7 @@
+/*
+Innovation Eternity
+*/
+
 #include"Arduino.h"
 #ifndef Door_h
 #define Door_h
@@ -20,7 +24,7 @@ class Door{
     void send_unlock_signal();
     
     public:
-        Door(byte Tdoor_unlock_pin, byte Tdoor_lock_sensor_pin, byte Tred_light_pin, byte Tgreen_light_pin, byte Tpir_pin);
+        Door(byte, byte, byte, byte, byte);
         void init();
         void polling_for_close_check();
         void unlock_door();
@@ -32,3 +36,8 @@ class Door{
         void pir_polling();
 };
 #endif
+
+/*
+Design by Innovation Eternity
+Implementation by S Inc. (C) 2019
+*/

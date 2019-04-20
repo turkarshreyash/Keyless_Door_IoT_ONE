@@ -1,19 +1,10 @@
 #include"Arduino.h"
 #include"Door.h"
 
-void Door::turn_red_light_on(){
-
-    digitalWrite(red_light_pin, HIGH);
-}
-void Door::turn_green_light_on(){
-    digitalWrite(green_light_pin,HIGH);
-}
-void Door::turn_red_light_off(){
-        digitalWrite(red_light_pin, LOW);
-}
-void Door::turn_green_light_off(){
-    digitalWrite(green_light_pin, LOW);
-}
+#define TURN_RED_LIGHT_ON digitalWrite(red_light_pin, HIGH)
+#define TURN_RED_LIGHT_OFF digitalWrite(red_light_pin, LOW)
+#define TURN_GREEN_LIGHT_ON digitalWrite(green_light_pin, HIGH)
+#define TURN_GREEN_LIGHT_OFF digitalWrite(green_light_pin, LOW)
 
 void Door::blink_red_light(){
     digitalWrite(red_light_pin, LOW);
@@ -50,8 +41,8 @@ Door::Door(byte Tdoor_unlock_pin, byte Tdoor_close_sensor_pin, byte Tred_light_p
 }
 void Door::init(){
     polling_for_close_check();
-    turn_green_light_on();
-    turn_red_light_off();
+    TURN_GREEN_LIGHT_ON;
+    TURN_RED_LIGHT_OFF;
     lock_door();
 }
 void Door::polling_for_close_check(){
@@ -89,8 +80,8 @@ void Door::lock_door(){
         return;
     }
     is_locked = true;
-    turn_green_light_off();
-    turn_red_light_on();
+    TURN_GREEN_LIGHT_OFF;
+    TURN_RED_LIGHT_ON;
 }
 
 void Door::unlock_door(){
@@ -99,6 +90,6 @@ void Door::unlock_door(){
     }
     is_locked=false;
     send_unlock_signal();
-    turn_red_light_off();
-    turn_green_light_on();
+    TURN_RED_LIGHT_OFF;
+    TURN_GREEN_LIGHT_ON;
 }
